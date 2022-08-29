@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Update this property group for every regular release -->
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Generate PlantUML from C4 model, forked from structurizr.com</Description>
+    <Authors>bwets.net</Authors>
+    <Copyright>Copyright 2022</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://structurizr.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/structurizr/dotnet</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Structurizr.Core" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="plantuml-1.2022.6.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
