@@ -1,3 +1,4 @@
+using bwets.PlantUML.Structurizr.Definitions;
 using bwets.PlantUML.Structurizr.ModelExtensions;
 using Structurizr;
 
@@ -15,7 +16,7 @@ namespace bwets.PlantUML.Structurizr
         {
             using var writer = GetWriter(view, ViewTypes.SystemLandscape, path);
             var showBoundary = view.EnterpriseBoundaryVisible ?? true;
-
+            
             WriteProlog(view, writer);
 
             view.Elements
@@ -61,8 +62,8 @@ namespace bwets.PlantUML.Structurizr
         {
             using var writer = GetWriter(view, ViewTypes.SystemContext, path);
             var showBoundary = view.EnterpriseBoundaryVisible ?? true;
-
-            WriteProlog(view, writer);
+            
+            WriteProlog(view,  writer);
 
             if (showBoundary)
             {
@@ -547,6 +548,9 @@ namespace bwets.PlantUML.Structurizr
             writer.WriteLine($"' {view.GetType()}: {view.Key}");
             writer.WriteLine("title " + GetTitle(view));
             writer.WriteLine();
+            writer.WriteLine("SHOW_PERSON_OUTLINE()");
+
+            WriteStyles(writer);
 
             switch (view?.AutomaticLayout?.RankDirection)
             {
@@ -592,7 +596,7 @@ namespace bwets.PlantUML.Structurizr
             var title = element.Name;
             var description = element.Description;
             var sprite = element.GetSprite() ?? string.Empty;
-            var tags = string.Empty;
+            var tags = element.GetAllTags().Where(t=>t!="Element" && t!="Container").FirstOrDefault("");
             var link = element.GetLink() ?? string.Empty;
             
 
@@ -733,5 +737,42 @@ namespace bwets.PlantUML.Structurizr
                 default: return "Rel";
             }
         }
+
+
+        private void WriteStyles(TextWriter writer)
+        {
+            var styles = Workspace.Views.Configuration.Styles;
+            
+            foreach (var es in styles.Elements)
+            {
+                var fontColor = ValueOrDefault(es.Color, "$ELEMENT_FONT_COLOR");
+                if (!fontColor.StartsWith($"")) fontColor = Quote(fontColor);
+                var bgColor = ValueOrDefault(es.Background, "$CONTAINER_BG_COLOR");
+                if (!bgColor.StartsWith($"")) bgColor= Quote(bgColor);
+                var shape = "RoundedBoxShare()";
+                switch (es.Shape)
+                {
+                    case Shape.Diamond: 
+                        shape = "EightSidedShape()";
+                        break;
+                }
+
+                var legend = es.Description;
+                writer.WriteLine($"AddElementTag({Quote(es.Tag)}, $fontColor={fontColor}, $bgColor={bgColor}, $shape={shape}, $legendText={legend})");
+            }
+
+            foreach (var rs in styles.Relationships)
+            {
+                var textColor = ValueOrDefault(rs.Color, "$ARROW_COLOR");
+                if (!textColor.StartsWith($"")) textColor = Quote(textColor);
+                var lineColor = ValueOrDefault(rs.Color, "$ARROW_COLOR");
+                if (!lineColor.StartsWith($"")) lineColor = Quote(lineColor);
+                var lineStyle = "";
+                if (rs.Dashed.GetValueOrDefault()) lineStyle = "DashedLine()";
+                
+                writer.WriteLine($"AddRelTag({Quote(rs.Tag)}, $textColor={textColor}, $lineColor={lineColor}, $lineStyle={lineStyle})");
+            }
+       }
+
     }
 }

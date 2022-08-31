@@ -1,3 +1,4 @@
+using bwets.PlantUML.Structurizr.Definitions;
 using Structurizr;
 
 namespace bwets.PlantUML.Structurizr.ModelExtensions

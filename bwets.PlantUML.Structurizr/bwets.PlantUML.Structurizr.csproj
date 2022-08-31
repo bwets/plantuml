@@ -12,19 +12,16 @@
     <Authors>bwets.net</Authors>
     <Copyright>Copyright 2022</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
-    <PackageProjectUrl>https://structurizr.com</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/structurizr/dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/bwets/plantuml</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bwets/plantuml</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Structurizr.Core" Version="1.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="plantuml-1.2022.6.jar">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+     
 
 </Project>
